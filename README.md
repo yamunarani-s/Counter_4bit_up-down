@@ -41,6 +41,8 @@ Functional Simulation:
       (The path of cshrc could vary depending on the installation destination)
       
 	After this you can see the window like below 
+<img width="1899" height="1031" alt="image" src="https://github.com/user-attachments/assets/e46d4c20-efce-45b4-8399-aa030e63d8de" />
+
 
 
 ## Fig 2: Invoke the Cadence Environment
@@ -57,12 +59,49 @@ Functional Simulation:
 ### Verilog code for 4-Bit Up-Down Counter:
 
 */Program  for  4-Bit Up-Down Counter
+`timescale 1ps / 1 ps
+module counter(clk,m,rst,count);
+input clk,m,rst;
+output reg [3:0] count;
+always@(posedge clk or negedge rst)
+begin
+if (!rst)
+count=0;
+else if (m)
+count=count+1;
+else
+count=count-1;
+end
+endmodule
 
 	Use Save option or Ctrl+S to save the code or click on the save option from the top most right corner and close the text file.
 
 ## Creating Test bench:
 
 	Similarly, create your test bench using gedit <filename_tb>.v or <filename_tb>.vhdl to open a new blank document (4bitup_down_count_tb.v).
+`timescale 1ns / 1ns
+module counter_tb;
+reg clk,rst,m;
+wire[3:0] count;
+initial
+begin
+clk=0;
+rst=0;#5;
+rst=1;
+end
+initial
+begin
+m=1;
+#160 m=0;
+end
+
+counter counter1 (clk,m,rst, count);
+always #5 clk=~clk;
+initial $monitor("Time=%t rst=%b clk=%b count=%b", $time,rst,clk,count);
+
+initial
+#320 $finish;
+endmodule
 
 ### Test-bench code for 4-Bit Up-Down Counter:
 
@@ -75,11 +114,13 @@ Functional Simulation:
 
 It will invoke the nclaunch window for functional simulation we can compile,elaborate and simulate it using Multiple step
 
+
 ## Fig 3: Setting Multi-step simulation
 
 Select Multiple Step and then select “Create cds.lib File” as shown in below figure
 
 Click the cds.lib file and save the file by clicking on Save option
+
 
 ## Fig 4: cds.lib file Creation
 
@@ -98,6 +139,8 @@ Click the cds.lib file and save the file by clicking on Save option
 	Left side you can see the HDL files. Right side of the window has worklib and snapshots directories listed.
 
 	Worklib is the directory where all the compiled codes are stored while Snapshot will have output of elaboration which in turn goes for simulation
+![WhatsApp Image 2025-09-27 at 10 49 57_9e1a64d6](https://github.com/user-attachments/assets/c66ff0a5-4d45-4dad-ab01-580e243e9880)
+
 
 ## Fig 6: Nclaunch Window
 
@@ -122,6 +165,8 @@ i.e Cadence IES command for compile: ncverilog +access+rwc -compile fa.v
 Left side select the file and in Tools : launch verilog compiler with current selection will get enable. Click it to compile the code 
 
 Worklib is the directory where all the compiled codes are stored while Snapshot will have output of elaboration which in turn goes for simulation 
+![WhatsApp Image 2025-09-27 at 10 49 57_cb945799](https://github.com/user-attachments/assets/c5eda0d6-9fd9-4317-a93b-73fa176fc97f)
+
 
 ## Fig 7: Compiled database in worklib
 
@@ -151,6 +196,8 @@ It contains statements that map logical library names to their physical director
 9.	It also establishes net connectivity and prepares all of this for simulation
     
 	After elaboration the file will come under snapshot. Select the test bench and simulate it. 
+![WhatsApp Image 2025-09-27 at 10 49 57_f372eaec](https://github.com/user-attachments/assets/899fa954-3c57-46a8-b3cb-9703029452e3)
+
 
 ## Fig 8: Elaboration Launch Option
 
@@ -163,12 +210,15 @@ It contains statements that map logical library names to their physical director
 	Simulation allow to dump design and test bench signals into a waveform 
 
 	Steps for simulation – Run the simulation command with simulator options
+![WhatsApp Image 2025-09-27 at 10 49 58_53224951](https://github.com/user-attachments/assets/e7327f6e-7001-47b2-8bde-abefb82d0644)
+
 
 ## Fig 9: Design Browser window for simulation
+<img width="805" height="820" alt="image" src="https://github.com/user-attachments/assets/8806b613-b7d1-4cdc-a8f9-f5764e93a645" />
+
 
 ## Fig 10: Simulation Waveform Window
-
-## Fig 11: Simulation Waveform Window
+![WhatsApp Image 2025-09-27 at 10 49 58_9e5446f0](https://github.com/user-attachments/assets/a6e6acdb-f1df-405d-a30a-223b2ecdea43)
 
 ### Result
 
